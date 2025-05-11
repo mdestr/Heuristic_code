@@ -64,11 +64,16 @@ function tsp()
               s2[i] = s[j]
               s2[j] = s[i]
               if evalSol(s2)<nDist # si on améliore la nouvelle distance
-                   nDist = evalSol(s2) # la nouvelle distance prend la valeur améliorée
-                   if i>=3 && illegalSol(s2, i) == false
-                    s = s2 # on change de solution candidate 
-                   end
-                   println(nDist," ",s)
+                if i>=3 
+                    if illegalSol(s2, i) == false
+                        nDist = evalSol(s2) # la nouvelle distance prend la valeur améliorée
+                        s = s2 # on change de solution candidate 
+                    end
+                else
+                    nDist = evalSol(s2) # la nouvelle distance prend la valeur améliorée
+                    s = s2 # on change de solution candidate
+                end
+                println(nDist," ",s)
               end
            end
        end
