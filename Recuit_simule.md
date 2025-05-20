@@ -56,7 +56,7 @@ Tant que l'on peut abaisser la température :                # 1ère boucle
             Fin si
         Fin si
 
-        Répéter 1), 2) et 3) jusqu'à ce qu el'équilibre statistique soit atteint
+        Répéter 1), 2) et 3) jusqu'à ce qu el'équilibre statistique soit atteint (i.e ensemble des voisins candidats traités)
     Fin tant que 2
 
     Abaisser la température et répéter jusqu'à ce que le systèùe soit gelé
