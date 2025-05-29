@@ -13,17 +13,27 @@ function eval(s)
     return dist;
 end
 
+
+
+
 # Fonction principale
 function tsp()  # traveling salesman problem 
 
     # initialisation de la solution de départ
+    println("solution de base : [1, 2,... n] : ")
     s=Vector(1:n)               # solution de base : [1, 2,... n]
+    println(s)
+    println("on boucle avec un retour à la ville de départ :  [1, 2,... n, 1] : ")
     s=vcat(s,1);                # on boucle avec un retour à la ville de départ :  [1, 2,... n, 1]
+    println(s)
+    println("on inverse la 2e moitié du voyage afin de générer une solution de base aléatoire : ")
     s=reverse(s,Int(n/2),n);    # on inverse la 2e moitié du voyage afin de générer une solution de base aléatoire
+    println(s)
+    println("on intitialise la liste taboue : ")
     tabu = -Inf*ones(n);        # on intitialise la liste taboue
                                 # tableau dans lequel on enregistre à quelle itération chaque index a été modifié
                                 # tabu[i]=iter signifie : la ville i a été modifiée à l'itération iter
-    println(s);
+    println(tabu)
     bstObj = eval(s);           # sauvegarde le coût de la solution initiale
                                 # par la suite bstObj stockera la meilleure oslution courante
     println(" sol=",s," de cout ",bstObj);
@@ -31,8 +41,7 @@ function tsp()  # traveling salesman problem
     # On effectue 20 itérations maximum
     maxIter = 20;
     for iter in 1:maxIter
-        #println("Iteration ",iter);
-        distInit = eval(s);
+        println("Iteration ",iter);
         distNew  = Inf;
         sNew     = s;
 
@@ -45,14 +54,16 @@ function tsp()  # traveling salesman problem
             # ne sont pas tabous depuis moins de 6 itérations.
             if tabu[i]<iter-6 && tabu[j]<iter-6
                 # Si l'échange est autorisé on permute les 2 villes sur une copie de la solution courante
- 
+                println("l'échange est autorisé on permute les 2 villes ", s[i], " et ", s[j]," sur une copie de la solution courante : ")
                 s2      = copy(s);
                 s2[i]   = s[j];
                 s2[j]   = s[i];
-                #println(" j'essaye sol=",s2," de cout ",eval(s2));
+                println(" j'essaye sol=",s2," de cout ",eval(s2));
                 if(eval(s2)<=distNew)
                     # on évalue le nouveau chemin
                     distNew = eval(s2);
+                    println("on évalue le nouveau chemin : ")
+                    println(distNew)                    
                     sNew = s2;  # on conserve le meilleur voisin admissible de cette itération
                     if distNew<bstObj
                         bstObj = distNew;
@@ -68,12 +79,16 @@ function tsp()  # traveling salesman problem
                 tabu[i] = iter;
             end
         end
+        println("les villes modifiées entre s et sNew deviennent taboues pour 6 itérations")
+        println(tabu)
         # sNew devient la solution courante pour la prochaine itération
         s = sNew;
         println(" sol=",s," de cout ",distNew);
     end
     return bstObj;
 end
+
+
 #le programme principal
 n = 8;
 d = zeros(Int, n,n);
@@ -82,4 +97,5 @@ for i in 1:n
         d[i,j] = min(abs(i-j),abs(i-j-n), abs(j-i-n));
     end
 end
+println("Matrice d : ", d)
 print("val obj finale ",tsp());
